@@ -42,6 +42,14 @@ app.get('/health', (req, res) => {
   });
 });
 
+// Handles when JanitorAI hits the base URL directly
+app.get('/', (req, res) => {
+  res.json({ 
+    status: "online", 
+    message: "NVIDIA Proxy is running. Base URL: https://ishizzz-my-nim.hf.space" 
+  });
+});
+
 // List models endpoint (OpenAI compatible)
 app.get('/v1/models', (req, res) => {
   const models = Object.keys(MODEL_MAPPING).map(model => ({
@@ -91,6 +99,11 @@ app.post('/v1/chat/completions', async (req, res) => {
         }
       }
     }
+
+    // This catches requests whether they have /v1 or not
+app.post(['/v1/chat/completions', '/chat/completions'], async (req, res) => {
+  // ... keep all your existing logic here ...
+});
     
     // Transform OpenAI request to NIM format
     const nimRequest = {
