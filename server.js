@@ -227,6 +227,15 @@ app.post('/v1/chat/completions', async (req, res) => {
   }
 });
 
+
+// Add this new route to handle JanitorAI's base URL check
+app.get('/v1', (req, res) => {
+  res.json({ 
+    message: "NVIDIA NIM Proxy is active. Use /v1/chat/completions for API requests.",
+    status: "ready" 
+  });
+});
+
 // Catch-all for unsupported endpoints
 app.all('*', (req, res) => {
   res.status(404).json({
