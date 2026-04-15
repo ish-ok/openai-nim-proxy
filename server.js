@@ -65,22 +65,11 @@ app.get('/v1/models', (req, res) => {
   });
 });
 
+
 // Chat completions endpoint (main proxy)
-// 1. Handle the Root (Browser check)
-app.get('/', (req, res) => {
-  res.json({ status: "online", message: "NVIDIA Proxy Ready" });
-});
-
-// 2. Handle THE CHECK (The v1 check)
-app.get('/v1', (req, res) => {
-  res.json({ status: "online", message: "V1 Endpoint Ready" });
-});
-
-// 3. The "Catch-All" POST Route
-// This catches /v1/chat/completions, /chat/completions, and even just /
-app.post(['/', '/v1', '/v1/chat/completions', '/chat/completions'], async (req, res) => {
-  // ... ALL your existing Chat Completion logic goes here ...
-});
+app.post('/v1/chat/completions', async (req, res) => {
+  try {
+    const { model, messages, temperature, max_tokens, stream } = req.body;
     // Smart model selection with fallback
     let nimModel = MODEL_MAPPING[model];
     if (!nimModel) {
