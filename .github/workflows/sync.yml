@@ -14,5 +14,5 @@ jobs:
           lfs: true
       - name: Push to hub
         env:
-          HF_TOKEN: ${{ secrets.GITTOK }}
+          GITTOK: ${{ secrets.GITTOK }}
         run: git push --force https://ish-ok:$GITTOK@huggingface.co/spaces/ishizzz/my_nim main
